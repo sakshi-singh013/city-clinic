@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../api/client.js";
 import UrgencyBadge from "../../components/UrgencyBadge.jsx";
 import { StatusPulse } from "../../components/Pulse.jsx";
+import CalendarConnect from "../../components/CalendarConnect.jsx";
 
 export default function DoctorPortal() {
   const [appointments, setAppointments] = useState(null);
@@ -27,7 +28,8 @@ export default function DoctorPortal() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-10">
       <p className="eyebrow mb-1">Upcoming visits</p>
-      <h1 className="font-display text-3xl font-semibold mb-8">Your schedule</h1>
+            <h1 className="font-display text-3xl font-semibold mb-8">Your schedule</h1>
+      <CalendarConnect />
 
       {error && <div className="text-sm text-alert bg-alert-soft rounded-card px-3 py-2 mb-4">{error}</div>}
       {!appointments ? (
