@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { api } from "../../api/client.js";
 import { StatusPulse } from "../../components/Pulse.jsx";
 import UrgencyBadge from "../../components/UrgencyBadge.jsx";
+import CalendarConnect from "../../components/CalendarConnect.jsx";
 
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
@@ -13,8 +14,9 @@ export default function PatientPortal() {
     <div className="max-w-4xl mx-auto px-6 py-10">
       <div className="flex items-center gap-2 mb-8">
         <TabButton active={tab === "book"} onClick={() => setTab("book")}>Book appointment</TabButton>
-        <TabButton active={tab === "mine"} onClick={() => setTab("mine")}>My appointments</TabButton>
+               <TabButton active={tab === "mine"} onClick={() => setTab("mine")}>My appointments</TabButton>
       </div>
+      <CalendarConnect />
       {tab === "book" ? <BookFlow onBooked={() => setTab("mine")} /> : <MyAppointments />}
     </div>
   );
