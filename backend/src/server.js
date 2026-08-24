@@ -14,7 +14,13 @@ const appointmentRoutes = require("./routes/appointment.routes");
 const calendarRoutes = require("./routes/calendar.routes");
 
 initDb();
+initDb();
 
+try {
+  require("./db/seed")();
+} catch (err) {
+  console.warn("[server] auto-seed skipped:", err.message);
+}
 const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
 app.use(express.json());
