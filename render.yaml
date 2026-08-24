@@ -15,11 +15,8 @@ services:
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
-    disk:
-      name: clinic-data
-      mountPath: /opt/render/project/src/backend/data
-      sizeGB: 1
-    envVars:
+   
+   envVars:
       - key: PORT
         value: 4000
       - key: JWT_SECRET
