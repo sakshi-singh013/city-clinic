@@ -1,0 +1,62 @@
+# Render Blueprint - deploys both services in one step.
+# In the Render dashboard: New -> Blueprint -> connect this repo -> Apply.
+# See README.md "Deploying to Render" for the full walkthrough.
+#
+# Note: if the service names below are already taken on Render, it will
+# suffix them (e.g. city-clinic-backend-a1b2) and assign different URLs -
+# just update CLIENT_URL / VITE_API_URL below (or in the dashboard after
+# first deploy) to match whatever Render actually assigned.
+
+services:
+  - type: web
+    name: city-clinic-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    disk:
+      name: clinic-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: DB_PATH
+        value: ./data/clinic.db
+      - key: CLIENT_URL
+        value: https://city-clinic-frontend.onrender.com
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        value: "City Clinic <no-reply@cityclinic.example>"
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        value: https://city-clinic-backend.onrender.com/api/calendar/oauth/callback
+
+  - type: web
+    runtime: static
+    name: city-clinic-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://city-clinic-backend.onrender.com/api
